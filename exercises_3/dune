@@ -1,0 +1,3 @@
+(executable
+ (name e2_test)
+ (libraries ounit2))
