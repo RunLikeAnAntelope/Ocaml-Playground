@@ -30,7 +30,63 @@ let first_two_equal = function
 
 let fifth_elem lst =
   if List.length lst >= 5 then
-    List.nth lst 5
+    List.nth lst 4
   else
     0
 ;;
+
+let sort_dec lst = List.sort Stdlib.compare lst |> List.rev
+let last_elem lst = List.length lst - 1 |> List.nth lst
+let any_zeroes lst = List.exists (fun a -> a = 0) lst
+
+let rec take n lst =
+  if n = 0 then
+    []
+  else (
+    match lst with
+    | [] -> []
+    | h :: t -> h :: take (n - 1) t
+  )
+;;
+
+let rec tail_take n lst acc =
+  if n = 0 then
+    acc
+  else (
+    match lst with
+    | [] -> acc
+    | h :: t -> tail_take (n - 1) t (h :: acc)
+  )
+;;
+
+let rec take' n lst = tail_take n lst []
+
+let rec drop n lst =
+  if n = 0 then
+    lst
+  else (
+    match lst with
+    | [] -> []
+    | _ :: t -> drop (n - 1) t
+  )
+;;
+
+let rec is_decreasing = function
+  | [] | [ _ ] -> true
+  | h :: (h' :: _ as h't) ->
+    if h < h' then
+      false
+    else
+      is_decreasing h't
+;;
+
+let rec is_inc_then_dec = function
+  | [] | [ _ ] -> true
+  | h :: (h' :: _ as h't) ->
+    if h' < h then
+      is_decreasing h't
+    else
+      is_inc_then_dec h't
+;;
+
+let is_unimodal lst = is_inc_then_dec lst
