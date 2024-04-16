@@ -254,3 +254,13 @@ let list_max = function
   | [] -> raise (Failure "list_max")
   | l -> List.hd @@ List.rev @@ List.sort Stdlib.compare l
 ;;
+
+let rec str_list_max x = function
+  | [] -> x
+  | h :: t -> max h (str_list_max x t)
+;;
+
+let list_max_string = function
+  | [] -> "empty"
+  | h :: t -> string_of_int @@ str_list_max h t
+;;
